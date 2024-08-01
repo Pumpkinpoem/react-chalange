@@ -2,11 +2,25 @@ import React from 'react';
 import css from './css/Content.module.css';
 import postsData from '../posts.json';
 import PostItem from './PostItem';
+import Loader from './Loader'; 
 
 class Content extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoaded: false
+        };
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({ isLoaded: true });
+        }, 9000);
+    }
+
     render() {
         const posts = postsData.savedPosts;
-
+        const { isLoaded } = this.state;
         if (!Array.isArray(posts)) {
             console.error('Posts is not an array:', posts);
             return <div>Error: Posts data is not an array</div>;
