@@ -1,43 +1,50 @@
-import React from "react";
+import React, { Component } from "react";
 import css from "./css/NavBarForm.module.css";
+import NavBarChild from "./NavBarChild";
 
-class NavBarForm extends React.Component {
 
+class NavBarForm extends Component {
     constructor(props) {
-        super(props);
+        super(props)
+        
         this.state = {
-            isLoggedIn: false,
-        };
+            isLoggedIn: true,
+        }
     }
-
-    handleClick = () => {
+    handleButtonClick = () => {
         this.setState((prevState) => ({
-            isLoggedIn: !prevState.isLoggedIn
-        }));
+            isLoggedIn: prevState.isLoggedIn ? false: true
+        }),  () => console.log(this.state.isLoggedIn))
     }
 
     render() {
         return (
-            <div className={css.NavBar}>
+            <div className= {css.NavBar}>
                 <h1>My Gallery</h1>
-                {this.state.isLoggedIn ? (
-                    <form>
-                        <label>
-                            Username:
-                            <input type="text" name="username" />
-                        </label>
-                        <label>
-                            Password:
-                            <input type="password" name="password" />
-                        </label>
-                        <button type="button" onClick={this.handleClick}>Submit</button>
-                    </form>
-                ) : (
-                    <button onClick={this.handleClick}>Login</button>
-                )}
+
+                    {
+                    this.state.isLoggedIn ? 
+                        <button onClick={() => this.handleButtonClick()}>Login</button>
+                        : 
+                        <form>
+                            <label htmlFor = "username">Username:</label>
+                            <input placeholder="username" id="username"/>
+                            
+                            <label htmlFor = "password">Password:</label>
+                            <input placeholder="password" id="password"/>
+                            <button onClick={() => this.handleButtonClick()}>Submit</button>
+                        </form>
+                        
+                    }
+        
+                <NavBarChild
+                isLoggedIn={this.state.isLoggedIn}
+                handleClick={this.handleButtonClick}
+                />
+
             </div>
-        );
+        )
     }
 }
 
-export default NavBarForm;
+export default NavBarForm
